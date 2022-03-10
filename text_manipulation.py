@@ -14,6 +14,7 @@ def process_file(fname, enc):
 # https://www.w3resource.com/python-exercises/class-exercises/python-class-exercise-2.php
 # accessed on 3/5/22
 # author: none given
+# takes a roman numeral string and converts it to an integer
 def roman_to_int(s):  # TODO: this used to work and now it doesn't; KeyError: 'II'
     rom_val = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
     int_val = 0
@@ -24,6 +25,20 @@ def roman_to_int(s):  # TODO: this used to work and now it doesn't; KeyError: 'I
             int_val += rom_val[s[i]]
     return int_val
 
+# modified from above function: converts the list of chapter headings from roman numerals to ints and
+# returns the list of ints
+def romans_to_int(l):
+    rom_val = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    ints = []
+    int_val = 0
+    for i in range(len(l)):
+        for j in range (len(l[i])):
+            if j > 0 and rom_val[l[i][j]] > rom_val[l[i][j - 1]]:
+                int_val += rom_val[l[i][j]] - 2 * rom_val[l[i][j - 1]]
+            else:
+                int_val += rom_val[l[i][j]]
+        ints.append(int_val)
+    return ints
 
 # takes in a list, returns a list of strings with each element being a roman numeral heading
 def get_headings(lines):

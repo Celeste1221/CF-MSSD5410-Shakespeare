@@ -22,9 +22,14 @@ def main():
 
         # gets a list of just the roman numerals in the text
         roman_num = get_headings(list_of_lines)
+        print(roman_num)
+        # print("roman nums length: " + str(len(roman_num)))
 
-        # should convert the list of roman numerals into integers
-        numbers = roman_to_int(roman_num)  ### TODO: this used to work and now it doesn't
+
+        # should convert the list of roman numerals into a list of integers
+        numbers = romans_to_int(roman_num)  ### TODO: this used to work and now it doesn't
+        print(numbers)
+        # print("numbers length: " + str(len(numbers)))
 
         # should break down the list of poem lines to separate a chunk of lines wherever there is "\n\n",
         # then put them into a new list of poems
