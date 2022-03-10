@@ -17,49 +17,46 @@ def get_user_input():
 def main():
     
     while True:
-        # read in the file as a list of sublists where each sublist is one line
+        # read in the file as an array where each element is one line of the poem (discards the first 3 lines)
         list_of_lines = process_file('shakespeare_sonnets.txt', 'utf-8')
 
-        # gets a list of just the roman numerals in the text
+        # pulls just the roman numerals from the text and puts them into a list
         roman_num = get_headings(list_of_lines)
-        print(roman_num)
-        # print("roman nums length: " + str(len(roman_num)))
 
+        # converts the list of roman numerals to a list of integers
+        numbers = romans_to_int(roman_num)
 
-        # should convert the list of roman numerals into a list of integers
-        numbers = romans_to_int(roman_num)  ### TODO: this used to work and now it doesn't
-        print(numbers)
-        # print("numbers length: " + str(len(numbers)))
+        # returns a dict with the text's roman numerals as keys and poems as values
+        poems = get_poems(list_of_lines)
 
-        # should break down the list of poem lines to separate a chunk of lines wherever there is "\n\n",
-        # then put them into a new list of poems
-        poems = get_list_of_poems(list_of_lines)  ### TODO: doesn't work, I think regex I tried is bad
+        # change dictionary keys from roman numerals to ints to match user input options
+        poems = dict(zip(numbers, list(poems.values())))
 
-        # should combine the numbers list as keys and the poems list as values in a dictionary
-        dictionary = {numbers[i]: poems[i] for i in range(0, len(poems))}
-        
         # user can input either a few words or lines of a sonnet or the number of the sonnet
-        # and then search the text for the poem or press q to quit
+        # to get back the sonnet or press q to quit
         choice = get_user_input()
 
         if choice == 'q':
             print("Goodbye.")
             break
-        if choice is int:
-            # iterate through keys to match the number
-            if choice in dictionary.keys():
-                print(dictionary[choice][value])
+        if choice.strip().isdigit():
+            choice = int(choice)
+            if choice in poems.keys():
+                print(poems[choice])
             else:
-                print("Invalid input")   
+                print("Invalid input")
         else:
-            # iterate through dictionary values to find the element with the longest common subsequence
-            # lcs = get_lcs(choice, dictionary[i][element]) for i in range (len(dictionary))
-            if lcs > 0.5:
-                pass # print that element
-            else:
-                # it's not close enough to be valid
-                print("Shakespeare didn't write that.")
+            choice = choice.split()
+            print(choice)
+            common = []
+            for poem in poems:
+                longest = lcs(choice, poems[poem].split())
+                common.append(longest)
+                print(poems[poem].split())
+            print(choice)
+            print(common)
+            # common should be a list of the lcs for each poem. Then we could find the highest lcs
+            # in the list and get the poem at that index to print for the user
 
-    
 if __name__ == "__main__":
     main()
